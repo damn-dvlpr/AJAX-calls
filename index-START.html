@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+let cities=[];
+fetch(endpoint)
+  .then(resp => resp.json())
+  .then(resp2 => {
+          cities=resp2;
+          console.log(cities);
+          // console.log(findMatch("new york"));
+        }
+      );
+// var inputdata="New";
+function findMatch(inputData){
+  return cities.filter(iteration=>{
+    regex=new RegExp(inputData,"gi");
+    return iteration.city.match(regex)|| iteration.state.match(regex);
+  })
+}
+var searchBar=document.querySelector(".search");
+
+searchBar.addEventListener("keyup",displayMatch);
+
+function displayMatch(){
+  cont html = findMatch(this.value).map((itr)=>{
+    return `
+      <li>
+        <span class="name">${place.city}, ${place.state}</span>
+        <span class="population">${place.population}</span>
+      </li>
+    `
+  }).join("");
+}
+</script>
+</body>
+</html>
